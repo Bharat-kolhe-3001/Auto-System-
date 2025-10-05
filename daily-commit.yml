@@ -1,1 +1,23 @@
 
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # runs every day at 6 AM UTC
+  workflow_dispatch:      # allows manual run too
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Make a daily commit
+        run: |
+          echo "Auto commit on $(date)" >> daily_log.txt
+          git config user.name "Bharat-kolhe-3001"
+          git config user.email "bharatkolhe20@gmail.com"
+          git add .
+          git commit -m "Daily auto commit $(date)" || echo "No changes to commit"
+          git push
